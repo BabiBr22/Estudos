@@ -1,0 +1,28 @@
+body{
+    background-image: url("https://codemyui.com/wp-content/uploads/2019/06/Shooting-Star-Background-in-Pure-CSS-1.gif");
+}
+
+h1{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+button{
+    color: black;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    border-color: rgb(53, 53, 53);
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+}
+label{
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+input{
+    border-radius: 5px;
+    width: 233px;
+    height: 19px;
+    background-color: rgb(26, 26, 26);
+}

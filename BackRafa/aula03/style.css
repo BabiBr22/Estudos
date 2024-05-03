@@ -1,0 +1,26 @@
+body{
+    background-image: url("https://media2.giphy.com/media/PjD8LXsw2wMyiWQn5i/200w.gif?cid=6c09b952xg6f8w2usvmn7quxqi6ihz5aeckizl6l5dusbc4s&ep=v1_gifs_search&rid=200w.gif&ct=g");
+
+}
+
+input{
+    /* margin-bottom: 15px ; */
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 6px;
+    padding: 3px;
+    border-top-color: blueviolet;
+    
+}
+
+label{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+}
+
+#container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
