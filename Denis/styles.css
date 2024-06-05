@@ -1,0 +1,81 @@
+body{
+    background-color: rgb(229, 229, 243);
+    background-image: url(https://gifs.eco.br/wp-content/uploads/2022/06/gifs-de-estrelas-10.gif);
+    background-size: 100%;
+    backdrop-filter: blur(3px) brightness(60%);
+}
+
+.letra{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+#resumo{
+    text-align: center;
+    padding-left: 20%;
+    padding-right: 20%;
+    color: white;
+}
+
+#cabecalho{
+    background-color: rgb(173, 173, 224);
+    margin-top: -26.5px;
+}
+
+h1{
+    text-align: center;
+    color: rgb(223, 76, 145);
+    animation-duration: 3s;
+    animation-name: slidein;
+    font-size: 40px;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes slidein {
+    from {
+      margin-left: 50%;
+      width: 60%;
+    }
+  
+    to {
+      margin-right: 50%;
+      width: 60%;
+    }
+  }
+
+img{
+    width: 450px;
+    height: 300px;
+}
+
+div{
+    text-align: center;
+}
+
+#footer{
+    text-align: center;
+    margin-top: 50px;
+    background-color: rgb(173, 173, 224);
+    width: 100%q;
+    height: 57px;
+}
+
+
+
+a{
+    text-decoration:none;
+    margin-bottom: -10px;
+}
+
+#Informacoes{
+    padding-left: 20%;
+    padding-right: 20%;
+    color: white;
+}
+
+h2{
+    color:rgb(74, 74, 175);
+    font-size: 30px;
+    font-weight: bold;
+}
