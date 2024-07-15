@@ -2,23 +2,20 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const isPalindrome = require('./atividade.js');
+const db = require('./db.json')
 
 
 app.use(bodyParser.json());
 
-app.post('/e-palindromo', function(req, res){
-    const palavra = req.body.palavra;
-    const resposta = isPalindrome(palavra);
-    if(resposta === true){
-        res.send('é palindromo');
-    } else {
-        res.send('não é palindromo');
-    }
+app.get('/produtos', function(req, res){
+    var produtos = db.produtos
+    res.send(produtos)
 });
 
-app.listen(8000, () => {
-    console.log('Servidor rodando na porta 8000');
-});
+app.get('/produtos/:id', function(req,res){
+    const _id = req.params.id
+    res.send(_id)
+    //filtrar lista de produtos e retornar nos res.send() apenas o produto do id selecionado
+})
 
-
-module.exports = isPalindrome;
+app.listen(8000);

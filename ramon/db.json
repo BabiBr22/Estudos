@@ -1,0 +1,14 @@
+{
+    "produtos":[
+        {
+            "id": 1,
+            "nome": "Smartphone",
+            "descricao": "Smartphone de última gereção", 
+            "preco": 1500.00,
+            "imagem": "Smartphone.jpg"
+        },
+        {
+            
+        }
+    ]
+}
