@@ -1,4 +1,5 @@
-let login = '', senha = '', article, div, h3, p1, input, p2, span, aLink, main, section, footer, h2, p3, span2;
+let login = '', senha = '';
+let article, div, h3, p1, input, p2, span, aLink, aLink2, main, section, footer, h2, p3;
 let usr = [];
 let snh = [];
 let produto = [];
@@ -74,6 +75,7 @@ for(let i = 0; i < produto.length; i++){
     p2.innerHTML = 'R$ ';
 
     span = document.createElement('span');
+    span.setAttribute('id', 'span-' + i); // Atributo id ajustado para ser único
     span.setAttribute('class', 'bold');
     if (preco[i] !== undefined && preco[i] !== null) {
         span.innerHTML = preco[i].toFixed(2).replace('.', ',');
@@ -85,6 +87,7 @@ for(let i = 0; i < produto.length; i++){
 
     aLink = document.createElement('a');
     aLink.setAttribute('class', 'btn');
+    aLink.setAttribute('onclick', `compra('qtd-${i}', '${cod[i]}', ${i})`);
     aLink.setAttribute('href', 'http://www.amazon.com.br/' + link[i]);
     aLink.setAttribute('target', '_blank');
     aLink.innerHTML = 'Comprar';
@@ -117,7 +120,7 @@ function getDados(){
     }
 
     qtd.push(0);
-    localStorage.qtdArr = JSON.stringify(qtd);
+    localStorage.setItem('qtdArr', JSON.stringify(qtd));
 
     // TOTAL DA COMPRA
     if(localStorage.totCompArr){
@@ -125,7 +128,7 @@ function getDados(){
     }
 
     totalCompra.push(0);
-    localStorage.totCompArr = JSON.stringify(totalCompra);
+    localStorage.setItem('totCompArr', JSON.stringify(totalCompra));
 
     // PRODUTO
     if(localStorage.prodArr){
@@ -134,7 +137,7 @@ function getDados(){
 
     let prod = document.querySelector('#produto').value;
     produto.push(prod);
-    localStorage.prodArr = JSON.stringify(produto);
+    localStorage.setItem('prodArr', JSON.stringify(produto));
     document.querySelector('#produto').value = '';
 
     // CÓDIGO
@@ -144,7 +147,7 @@ function getDados(){
 
     let codig = document.querySelector('#codigo').value;
     cod.push(codig);
-    localStorage.codArr = JSON.stringify(cod);
+    localStorage.setItem('codArr', JSON.stringify(cod));
     document.querySelector('#codigo').value = '';
 
     // PREÇO
@@ -154,7 +157,7 @@ function getDados(){
 
     let prec = document.querySelector('#preco').value;
     preco.push(parseFloat(prec.replace(',', '.')));
-    localStorage.precoArr = JSON.stringify(preco);
+    localStorage.setItem('precoArr', JSON.stringify(preco));
     document.querySelector('#preco').value = '';
 
     // LINK
@@ -164,7 +167,7 @@ function getDados(){
 
     let lnk = document.querySelector('#linkAmazon').value;
     link.push(lnk);
-    localStorage.linkArr = JSON.stringify(link);
+    localStorage.setItem('linkArr', JSON.stringify(link));
     document.querySelector('#linkAmazon').value = '';
 
     alert("Dados inseridos com sucesso!");
@@ -182,11 +185,11 @@ function criaLogin(){
 
     let novoUsr = prompt("Login: ");
     usr.push(novoUsr);
-    localStorage.usrArr = JSON.stringify(usr);
+    localStorage.setItem('usrArr', JSON.stringify(usr));
 
     let novaSnh = prompt("Senha: ");
     snh.push(novaSnh);
-    localStorage.snhArr = JSON.stringify(snh);
+    localStorage.setItem('snhArr', JSON.stringify(snh));
 
     if(usr.includes(novoUsr) && snh.includes(novaSnh)){
         alert("Login criado com sucesso!");
@@ -213,5 +216,26 @@ function abreTelaLogin(){
         document.querySelector("#login").innerHTML = `Bem-vindo, ${login}`;
     } else {
         alert("Digite um usuário/senha correto!");
+    }
+}
+
+function compra(qtdID, product, posArr){
+    let quantidade = parseInt(document.getElementById(qtdID).value);
+    qtd[posArr] = quantidade;
+    localStorage.setItem('qtdArr', JSON.stringify(qtd));
+
+    let precoUnitario = preco[posArr];
+    totalCompra[posArr] = quantidade * precoUnitario;
+    localStorage.setItem('totCompArr', JSON.stringify(totalCompra));
+
+    alert(`Compra processada: Quantidade ${quantidade}, Produto ${product}, Posição ${posArr}`);
+}
+
+function calculaCesta(){
+    usr = JSON.parse(localStorage.getItem('usrArr'));
+    if(usr.includes(login)){
+        alert("Logado");
+    } else {
+        alert("Você não está logado");
     }
 }
