@@ -1,14 +1,27 @@
 {
-    "produtos":[
+    "produtos": [
         {
             "id": 1,
             "nome": "Smartphone",
-            "descricao": "Smartphone de última gereção", 
+            "descricao": "Smartphone de última geração",
             "preco": 1500.00,
             "imagem": "Smartphone.jpg"
-        },
+        }
+    ],
+    "clientes": [
         {
-            
+            "id": 1,
+            "nome": "João Silva",
+            "email": "joao.silva@example.com"
+        }
+    ],
+    "pedidos": [
+        {
+            "id": 1,
+            "clienteId": 1,
+            "produtoId": 1,
+            "quantidade": 1,
+            "data": "2024-08-05"
         }
     ]
 }
