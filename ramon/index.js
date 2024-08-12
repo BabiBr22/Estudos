@@ -120,3 +120,7 @@ app.delete('/produtos/:id', (req, res) => {
 app.listen(8000, () => {
     console.log('Servidor está rodando na porta 8000');
 });
+
+
+
+
