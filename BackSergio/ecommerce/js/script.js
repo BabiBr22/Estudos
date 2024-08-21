@@ -1,5 +1,4 @@
-let login = '', senha = '';
-let article, div, h3, p1, input, p2, span, aLink, aLink2, main, section, footer, h2, p3;
+let login = '', senha = '', article, div, h3, p1, input, p2, span, aLink, main, section, footer, h2, p3, span2, loginAut, textoCarrinho, totalGeral, div2;
 let usr = [];
 let snh = [];
 let produto = [];
@@ -75,7 +74,7 @@ for(let i = 0; i < produto.length; i++){
     p2.innerHTML = 'R$ ';
 
     span = document.createElement('span');
-    span.setAttribute('id', 'span-' + i); // Atributo id ajustado para ser único
+    span.setAttribute('id', cod[i])
     span.setAttribute('class', 'bold');
     if (preco[i] !== undefined && preco[i] !== null) {
         span.innerHTML = preco[i].toFixed(2).replace('.', ',');
@@ -87,7 +86,7 @@ for(let i = 0; i < produto.length; i++){
 
     aLink = document.createElement('a');
     aLink.setAttribute('class', 'btn');
-    aLink.setAttribute('onclick', `compra('qtd-${i}', '${cod[i]}', ${i})`);
+    aLink.setAttribute('onclick', "compra(" + "'" + 'qtd-' + i + "'" + ',' + "'" + cod[i] + "'" + ',' + i + ")")
     aLink.setAttribute('href', 'http://www.amazon.com.br/' + link[i]);
     aLink.setAttribute('target', '_blank');
     aLink.innerHTML = 'Comprar';
@@ -120,7 +119,7 @@ function getDados(){
     }
 
     qtd.push(0);
-    localStorage.setItem('qtdArr', JSON.stringify(qtd));
+    localStorage.qtdArr = JSON.stringify(qtd);
 
     // TOTAL DA COMPRA
     if(localStorage.totCompArr){
@@ -128,7 +127,7 @@ function getDados(){
     }
 
     totalCompra.push(0);
-    localStorage.setItem('totCompArr', JSON.stringify(totalCompra));
+    localStorage.totCompArr = JSON.stringify(totalCompra);
 
     // PRODUTO
     if(localStorage.prodArr){
@@ -137,7 +136,7 @@ function getDados(){
 
     let prod = document.querySelector('#produto').value;
     produto.push(prod);
-    localStorage.setItem('prodArr', JSON.stringify(produto));
+    localStorage.prodArr = JSON.stringify(produto);
     document.querySelector('#produto').value = '';
 
     // CÓDIGO
@@ -147,7 +146,7 @@ function getDados(){
 
     let codig = document.querySelector('#codigo').value;
     cod.push(codig);
-    localStorage.setItem('codArr', JSON.stringify(cod));
+    localStorage.codArr = JSON.stringify(cod);
     document.querySelector('#codigo').value = '';
 
     // PREÇO
@@ -157,7 +156,7 @@ function getDados(){
 
     let prec = document.querySelector('#preco').value;
     preco.push(parseFloat(prec.replace(',', '.')));
-    localStorage.setItem('precoArr', JSON.stringify(preco));
+    localStorage.precoArr = JSON.stringify(preco);
     document.querySelector('#preco').value = '';
 
     // LINK
@@ -167,7 +166,7 @@ function getDados(){
 
     let lnk = document.querySelector('#linkAmazon').value;
     link.push(lnk);
-    localStorage.setItem('linkArr', JSON.stringify(link));
+    localStorage.linkArr = JSON.stringify(link);
     document.querySelector('#linkAmazon').value = '';
 
     alert("Dados inseridos com sucesso!");
@@ -185,11 +184,11 @@ function criaLogin(){
 
     let novoUsr = prompt("Login: ");
     usr.push(novoUsr);
-    localStorage.setItem('usrArr', JSON.stringify(usr));
+    localStorage.usrArr = JSON.stringify(usr);
 
     let novaSnh = prompt("Senha: ");
     snh.push(novaSnh);
-    localStorage.setItem('snhArr', JSON.stringify(snh));
+    localStorage.snhArr = JSON.stringify(snh);
 
     if(usr.includes(novoUsr) && snh.includes(novaSnh)){
         alert("Login criado com sucesso!");
@@ -219,23 +218,92 @@ function abreTelaLogin(){
     }
 }
 
-function compra(qtdID, product, posArr){
-    let quantidade = parseInt(document.getElementById(qtdID).value);
-    qtd[posArr] = quantidade;
-    localStorage.setItem('qtdArr', JSON.stringify(qtd));
-
-    let precoUnitario = preco[posArr];
-    totalCompra[posArr] = quantidade * precoUnitario;
-    localStorage.setItem('totCompArr', JSON.stringify(totalCompra));
-
-    alert(`Compra processada: Quantidade ${quantidade}, Produto ${product}, Posição ${posArr}`);
+function compra(qtdID, produt, posArr){
+    if(localStorage.posArr){
+        qtd[posArr] = parseInt(document.getElementById(qtdID).value)
+    }else{
+        localStorage.posArr = JSON.stringify(qtd)
+    }
+    totalCompra[posArr] = qtd[posArr] * parseFloat(document.getElementById(produt).innerText.replace(",", "."))
+    localStorage.qtdArr = JSON.stringify(qtd)
+    localStorage.totCompArr = JSON.stringify(totalCompra)
 }
 
 function calculaCesta(){
-    usr = JSON.parse(localStorage.getItem('usrArr'));
-    if(usr.includes(login)){
-        alert("Logado");
-    } else {
-        alert("Você não está logado");
+    usr = JSON.parse(localStorage.getItem('usrArr'))
+    loginAut = localStorage.getItem('loginAutenticado')
+    if(usr.includes(loginAut)){
+        let textoCarrinho = ''
+        for(i in qtd){
+            if(qtd[i] > 0){
+                totalGeral += totalCompra[i]
+                textoCarrinho += qtd[i] + " x " + preco[i].toFixed(2).replace('.', ',') + " - Boneco" + produto[i] + " R$ " + totalCompra[i].toFixed(2).replace('.', ',') + "\n"
+            }
+        }
+        if(totalGeral > 0){
+            alert(`${textoCarrinho}
+            ------------------------------------------------------
+            Total da compra                         $ ${totalGeral,toFixed(2),replace('.', ',')}`)
+            let text = "Confirme ou cancele sua compra! \n Pressione OK para comprar ou cancelar para desistir da compra."
+            if(confirm(text) == true){
+                alert('Compra efetuada com sucesso!');
+                for(i in qtd){
+                    qtd[i] = 0
+                }localStorage.qtdArr = JSON.stringify(qtd)
+                window.location.reload()
+            }else{
+                alert('Sua compra não foi realizada!')
+                totalGeral = 0
+            }else{
+                alert('Seu carrinho está vazio!')
+            }
+        }else{
+            alert('Digite um usuário')
+        }
+    }else{
+        alert("Você não está logado")
     }
+}
+
+function abreLink(posArr){
+    localStorage.setItem('produtoIndividual', produto[posArr])
+    //setItem - armazena valores no localStorage
+    localStorage.setItem('descricaoIndividual', descricao[posArr])
+    let url_atual = window.location.href
+    if(url_atual != "http://127.o.o.1:5500/protudo.html" && url_atual != "http://127.o.o.1:5500/protudo.html#"){
+        window.location.href = "/produto.html"
+    }
+}
+
+function carregaProduto(){
+    let produtoCompra = localStorage.getItem('produtoIndividual')
+    let desCompra = localStorage.getItem('descricaoIndividual')
+    let pos = produto.indexOf(produtoCompra)
+    document.getElementById('tituloProduto').innerHTML = produtoCompra
+    document.getElementById("descProduto").innerHTML = desCompra
+    document.getElementById('imgProd').style.backgroundImage = 'url(imagens/img' + pos + '.jpg)'
+    div2 = document.createElement('div')
+    div2.setAttribute('class', 'card')
+    document.body.append(div2)
+    p1 = document.createAttribute('p')
+    p1.innerHTML = 'Qtd:'
+    div2.append(p1)
+    input = document.createElement('input')
+    input.setAttribute('type', 'number')
+    input.setAttribute('value', '1')
+    input.setAttribute('min', '1')
+    input.setAttribute('max', '10')
+    input.setAttribute('id', 'qtd-' + pos)
+    p1.append(input)
+    p2 = document.createAttribute('p')
+    p2.innerHTML = 'R$ '
+    span = document.createElement('span')
+    p2.setAttribute('id', cod[pos])
+    p2.setAttribute('class', bold)
+    span.innerHTML = preco[pos].toFixed(2).replace('.', ',')
+    p2.append(span)
+    div2.append(p2)
+    aLink = document.createElement('a')
+    aLink.setAttribute('onlink', 'compra(' + "'" + 'qtd-' + pos + "'" + ',' + cod[pos] + "'" + ',' + pos + ')')
+    aLink.setAttribute('', '')
 }
