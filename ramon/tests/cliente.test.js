@@ -12,11 +12,11 @@ describe('Clientes API', () => {
                 email: "cliente@example.com",
                 senha: "senha"
             });
-            expect(res.status).toBe(201); // Assumindo que a criação deve retornar um status 201 Created
-            expect(res.body).toHaveProperty('id'); // Verifica se o ID do cliente foi retornado
+            expect(res.status).toBe(201); 
+            expect(res.body).toHaveProperty('id'); 
             expect(res.body).toHaveProperty('nome', 'Cliente Teste');
             expect(res.body).toHaveProperty('email', 'cliente@example.com');
-            clienteId = res.body.id; // Armazena o ID do cliente criado para usar nos outros testes
+            clienteId = res.body.id; 
         });
     });
 
@@ -62,7 +62,7 @@ describe('Clientes API', () => {
     });
 
     afterAll(async () => {
-        // Certifique-se de que o cliente criado para testes seja deletado
+        
         if (clienteId) {
             await request(app).delete(`/clientes/${clienteId}`);
         }

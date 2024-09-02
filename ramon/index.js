@@ -11,8 +11,8 @@ app.use('/clientes', clientesRotas); // Adicionado para clientes
 
 // Iniciar o servidor
 const port = 8000;
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
+// app.listen(port, () => {
+//     console.log(`Servidor rodando na porta ${port}`);
+// });
 
 module.exports = app;

@@ -1,9 +1,7 @@
-// clientesControlador.js
 const db = require('../db.json');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
-
 
 // Listar todos os clientes
 const listClientes = async (req, res) => {
@@ -25,7 +23,7 @@ const createCliente = async (req, res) => {
         return res.status(406).json({ error: 'Nome, email e senha devem ser informados' });
     }
     const senhaCriptografada = await bcrypt.hash(dados.senha, 10);
-    dados.senha = senhaCriptografada
+    dados.senha = senhaCriptografada;
     const _id = uuidv4();
     dados.id = _id;
     db.clientes.push(dados);

@@ -8,13 +8,8 @@ const listProdutos = async (req, res) => {
 };
 
 const getProduto = async (req, res) => {
-    // Converte o ID da URL para número
     const _id = req.params.id;
-
-    // Encontra o produto pelo ID
     const produto = db.produtos.find(produto => produto.id == _id);
-
-    // Retorna o produto encontrado ou um erro 404 se não encontrado
     produto ? res.json(produto) : res.status(404).json({ error: 'not found' });
 };
 
@@ -31,7 +26,7 @@ const createProduto = async (req, res) => {
             return res.status(500).json({ error: 'erro no servidor' });
         }
     });
-    res.status(201).json(dados); // Alterado para retornar o produto criado
+    res.status(201).json(dados);
 };
 
 const updateProduto = async (req, res) => {
@@ -47,7 +42,7 @@ const updateProduto = async (req, res) => {
             return res.status(500).json({ error: 'erro no servidor' });
         }
     });
-    res.json(db.produtos[index]); // Retorna o produto atualizado
+    res.json(db.produtos[index]);
 };
 
 const deleteProduto = async (req, res) => {
@@ -62,7 +57,7 @@ const deleteProduto = async (req, res) => {
             return res.status(500).json({ error: 'erro no servidor' });
         }
     });
-    res.status(204).send(); // Retorna status 204 sem conteúdo
+    res.status(204).send();
 };
 
 module.exports = { listProdutos, getProduto, createProduto, updateProduto, deleteProduto };
