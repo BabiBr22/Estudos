@@ -1,18 +1,20 @@
-// index.js (ou app.js)
 const express = require('express');
 const app = express();
-// Não é necessário usar body-parser se estiver usando express.json()
-const produtosRotas = require('./produtosRotas'); // O nome correto do arquivo de rotas para produtos
-const clientesRotas = require('./cliente/clientesRotas');
+const bodyParser = require('body-parser');
+const rotasprodutos = require('./rotas/rotas-produtos');
+const rotascliente = require('./rotas/rotas-clientes')
+const rotas_autenticacao = require('./rotas/rotas-autenticacao') //importando
 
-app.use(express.json()); // Middleware embutido do Express para JSON
-app.use('/produtos', produtosRotas);
-app.use('/clientes', clientesRotas); // Adicionado para clientes
+app.use(bodyParser.json());
+app.use('/produtos', rotasprodutos); // Alterado para prefixar as rotas com '/produtos'
+app.use('/clientes', rotascliente)
+app.use('/auth', rotas_autenticacao)
 
-// Iniciar o servidor
-const port = 8000;
-// app.listen(port, () => {
-//     console.log(`Servidor rodando na porta ${port}`);
-// });
+
+//Iniciar o servidor
+const port = 8000; // Ajuste a porta conforme necessário
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+});
 
 module.exports = app;

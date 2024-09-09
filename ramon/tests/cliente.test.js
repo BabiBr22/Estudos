@@ -4,7 +4,6 @@ const app = require('../index');
 describe('Clientes API', () => {
     let clienteId;
 
-    // Teste para criar um cliente
     describe('POST /clientes', () => {
         it('deve criar um novo cliente com sucesso', async () => {
             const res = await request(app).post('/clientes').send({
