@@ -1,51 +1,47 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const secretKey = 'sua_chave_secreta'; // Idealmente, armazene no arquivo .env para maior segurança
+const db = require('../db.json')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
-// Função de login que gera o token JWT
+
 const login = async (req, res) => {
-    const { email, senha } = req.body;
-
-    // Simulação de busca de um usuário no banco de dados
-    const usuario = { 
-        id: 1, 
-        email: 'usuario@exemplo.com', 
-        senha: await bcrypt.hash('senha123', 10) // Senha hash armazenada no banco
-    };
-
-    // Verificar se o email existe
-    if (usuario.email !== email) {
-        return res.status(404).json({ mensagem: 'Usuário não encontrado' });
-    }
-
-    // Verificar se a senha está correta
-    const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
-    if (!senhaCorreta) {
-        return res.status(401).json({ mensagem: 'Senha incorreta' });
-    }
-
-    // Gerar o token JWT
-    const token = jwt.sign({ id: usuario.id, email: usuario.email }, secretKey, { expiresIn: '1h' });
-
-    return res.json({ token });
-};
-
-// Middleware para autenticar o token JWT
-const autenticarToken = (req, res, next) => {
-    const token = req.headers['authorization'];
-    
-    if (!token) {
-        return res.status(403).json({ mensagem: 'Token não fornecido' });
-    }
-
-    // Verificar o token
-    jwt.verify(token, secretKey, (err, user) => {
-        if (err) {
-            return res.status(403).json({ mensagem: 'Token inválido' });
+    try {
+        const {email, senha} = req.body;
+        const lista_clientes = db.clientes
+        if (!email || !senha) {
+            res.send({erro:'email ou senha não enviado'})
         }
-        req.user = user;
-        next(); // Avançar para a próxima middleware ou rota
-    });
-};
+        const cliente = lista_clientes.find(
+            (cliente) => cliente?.email == email
+            )
+        if (!cliente){
+            res.status(404).send({error:'not found'})
+        }
 
-module.exports = { login, autenticarToken };
+        const senhaValida = bcrypt.compareSync(senha, cliente.senha)
+        if (!senhaValida){
+            res.send({error:'a senha não é valida'})
+        }
+
+        const token = jwt.sign(
+            {
+                nome: cliente.nome,
+                email: cliente.email,
+                _id: cliente.id
+            },
+            process.env.chave_criptografia,
+            { expiresIn: 1000*60*60*24*365 }
+        )
+            
+        res.cookie("TokenAulaBE", token).send({message:'ok'})
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const logout = async(req, res) =>{
+    res.cookie("TokenAulaBE", "none", expiresIn=5)
+    res.send({message : 'o usuário fez o logout'})
+}
+
+
+module.exports = {login, logout}

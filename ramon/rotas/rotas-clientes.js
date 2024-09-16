@@ -1,20 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const controladorCliente = require('../controladores/controlador-cliente');
+const express = require('express')
+const router = express.Router()
+const controlador = require('../controladores/controlador-clientes.js');
 
-// Obter todos os clientes
-router.get('/', controladorCliente.obterClientes);
 
-// Obter cliente por ID
-router.get('/:id', controladorCliente.obterClientePorId);
 
-// Criar um novo cliente
-router.post('/', controladorCliente.criarCliente);
-
-// Atualizar um cliente existente
-router.put('/:id', controladorCliente.atualizarCliente);
-
-// Excluir um cliente
-router.delete('/:id', controladorCliente.excluirCliente);
+router.get('', controlador.listClientes)
+router.get('/:id', controlador.getCliente)
+router.post('', controlador.createCliente)
+router.post('/:id', controlador.updateCliente)
+router.delete('/:id',controlador.deleteCliente)
 
 module.exports = router;

@@ -79,6 +79,12 @@
             "email": "cliente@example.com",
             "senha": "$2a$10$sGvFNLGL5BbYa6saTJSE4.Num/JR3NjefwJ4RSgRAEUzXjNkrtLJe",
             "id": "55ab18b5-60ed-42e3-b55c-b2f04829cf32"
+        },
+        {
+            "nome": "Carlos",
+            "email": "Carlos@example.com",
+            "senha": "$2a$10$QRpseuThy.f8P8cdlCaE2.L/fEJTlMruALbxqP5b.Ka2CFc4q4rxq",
+            "id": "9d36fc59-4b35-44aa-9259-d38d443084c8"
         }
     ],
     "pedidos": [
